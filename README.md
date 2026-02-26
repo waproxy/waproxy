@@ -286,6 +286,114 @@ Applications must handle rounding safely.
 - Network fee is deducted from wallet balance.
 - Safety margin prevents execution failure.
 - WAproxy never guarantees fiat equivalence.
+- WAproxy internally represents all supported coins
+using atomic units equivalent to:
+
+1 BTC   = 100,000,000 sat
+1 LTC   = 100,000,000 sat
+1 DOGE  = 100,000,000 sat (WAproxy internal unit)
+
+This mirrors the Bitcoin atomic model.
+
+------------------------------------------------------------
+WHY 100,000,000?
+------------------------------------------------------------
+
+Bitcoin defines:
+
+1 BTC = 100,000,000 satoshi
+
+This atomic design:
+
+- eliminates floating point errors
+- allows precise micro-transactions
+- simplifies fee calculations
+- ensures deterministic rounding
+
+WAproxy adopts the same structural philosophy.
+
+------------------------------------------------------------
+UNIFIED ATOMIC MODEL
+------------------------------------------------------------
+
+Instead of handling:
+
+- BTC with 8 decimals
+- LTC with 8 decimals
+- DOGE with variable decimals
+
+WAproxy standardizes:
+
+All coins use integer atomic representation.
+
+Internally:
+
+amount_sat is always integer.
+
+------------------------------------------------------------
+EXAMPLE (BTC)
+------------------------------------------------------------
+
+User UI input:
+0.00015000 BTC
+
+Internal conversion:
+0.00015000 × 100,000,000 = 15,000 sat
+
+WAproxy works only with:
+15000
+
+------------------------------------------------------------
+EXAMPLE (DOGE)
+------------------------------------------------------------
+
+User UI input:
+10 DOGE
+
+Internal conversion:
+10 × 100,000,000 = 1,000,000,000 sat
+
+WAproxy processes:
+1000000000
+
+------------------------------------------------------------
+IMPORTANT DISTINCTION
+------------------------------------------------------------
+
+WAproxy "sat" is an internal atomic unit,
+not necessarily Bitcoin's satoshi.
+
+It represents the smallest integer accounting unit per coin.
+
+------------------------------------------------------------
+WHY THIS MATTERS
+------------------------------------------------------------
+
+This design ensures:
+
+- identical fee logic across coins
+- predictable math
+- zero float drift
+- consistent idempotency
+- simplified auditing
+
+------------------------------------------------------------
+RELATION TO EXCHANGES
+------------------------------------------------------------
+
+Major exchanges like Binance
+display BTC using 8 decimals.
+
+WAproxy mirrors this atomic structure
+at the execution layer.
+
+------------------------------------------------------------
+ARCHITECTURAL STATEMENT
+------------------------------------------------------------
+
+Atomic integer accounting
+is mandatory for deterministic value transport.
+
 ------------------------------------------------------------
 PROTOCOL PHILOSOPHY
 ------------------------------------------------------------
