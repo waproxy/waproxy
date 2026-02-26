@@ -394,6 +394,123 @@ ARCHITECTURAL STATEMENT
 Atomic integer accounting
 is mandatory for deterministic value transport.
 
+The Health endpoint exposes the economic capabilities
+of a WAproxy node at runtime.
+
+It is not a cosmetic status check.
+
+It defines:
+
+- enabled coins
+- minimum send thresholds
+- protocol fee configuration
+- operational readiness
+
+Health reflects execution truth.
+
+------------------------------------------------------------
+WHY HEALTH MATTERS
+------------------------------------------------------------
+
+In deterministic systems:
+
+Configuration must be visible.
+Limits must be explicit.
+Economic boundaries must be declared.
+
+Health provides this transparency.
+
+------------------------------------------------------------
+EXPOSED ECONOMIC PARAMETERS
+------------------------------------------------------------
+
+Example snapshot:
+
+{
+  "status": "ok",
+  "fee_bps": 300,
+  "enabled_coins": ["btc","ltc","doge"],
+  "btc_min_send_sat": 10000,
+  "ltc_min_send_sat": 100000,
+  "doge_min_send_sat": 100000000
+}
+
+------------------------------------------------------------
+MINIMUM SEND POLICY
+------------------------------------------------------------
+
+Minimum send values are enforced
+to prevent:
+
+- dust transactions
+- economic inefficiency
+- spam execution
+- network rejection
+
+Example:
+
+btc_min_send_sat = 10000
+ltc_min_send_sat = 100000
+doge_min_send_sat = 100000000
+
+These values reflect:
+
+- atomic unit scaling
+- economic viability
+- protocol design boundaries
+
+------------------------------------------------------------
+RELATION TO ATOMIC MODEL
+------------------------------------------------------------
+
+All minimum values are expressed
+in atomic SAT units.
+
+Example:
+
+1 DOGE = 100,000,000 internal sat
+
+Therefore:
+
+doge_min_send_sat = 100,000,000
+= 1 DOGE minimum
+
+------------------------------------------------------------
+RUNTIME TRUTH PRINCIPLE
+------------------------------------------------------------
+
+Health is the runtime source of truth.
+
+Applications must not hardcode:
+
+- fee_bps
+- minimum thresholds
+- enabled coins
+
+They should query Health.
+
+------------------------------------------------------------
+EXECUTION CONTRACT
+------------------------------------------------------------
+
+Before calling wallet_send:
+
+1. Fetch Health.
+2. Verify coin is enabled.
+3. Verify amount_sat >= min_send.
+4. Apply protocol fee logic.
+5. Ensure safety margin.
+
+------------------------------------------------------------
+ARCHITECTURAL STATEMENT
+------------------------------------------------------------
+
+Health endpoint defines
+economic capability boundaries.
+
+WAproxy executes only within declared limits.
+
+
 ------------------------------------------------------------
 PROTOCOL PHILOSOPHY
 ------------------------------------------------------------
