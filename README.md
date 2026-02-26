@@ -151,6 +151,145 @@ Examples:
 
 ---
 
+## WAPROXY-CORE-EXAMPLE-V3
+
+TITLE:
+WAproxy Multi-Coin Market Send Examples (USDT→BTC/LTC/DOGE)
+
+VERSION:
+V3 (Philosophy Locked)
+
+DESCRIPTION:
+This document demonstrates numeric examples of sending
+a market-referenced value (e.g., 10 USDT) across supported coins.
+
+Coins covered:
+- BTC
+- LTC
+- DOGE
+
+Protocol fee:
+FEE_BPS = 300 (3%)
+
+------------------------------------------------------------
+GLOBAL EXECUTION RULES
+------------------------------------------------------------
+
+1) amount_sat is defined by application logic.
+2) protocol_fee = amount_sat × 0.03
+3) receiver_gets = amount_sat - protocol_fee
+4) wallet_balance >= amount_sat + safety_margin
+5) network_fee is dynamic and external.
+6) All calculations are integer-based.
+7) Floating point arithmetic is avoided.
+
+------------------------------------------------------------
+SECTION 1 — BTC EXAMPLE
+------------------------------------------------------------
+
+Market reference (example snapshot):
+10 USDT ≈ 0.00015 BTC
+
+Bitcoin atomic unit:
+1 BTC = 100,000,000 sat
+
+Conversion:
+0.00015 × 100,000,000 = 15,000 sat
+
+Set:
+amount_sat = 15,000
+
+Protocol fee:
+15,000 × 0.03 = 450 sat
+
+Receiver gets:
+15,000 - 450 = 14,550 sat
+
+Safety margin example:
+500 sat
+
+Minimum wallet balance:
+15,000 + 500 = 15,500 sat
+
+------------------------------------------------------------
+SECTION 2 — LTC EXAMPLE
+------------------------------------------------------------
+
+Market reference (example snapshot):
+1 USDT ≈ 0.018 LTC
+10 USDT ≈ 0.18 LTC
+
+Litecoin atomic unit:
+1 LTC = 100,000,000 sat
+
+Conversion:
+0.18 × 100,000,000 = 18,000,000 sat
+
+Set:
+amount_sat = 18,000,000
+
+Protocol fee:
+18,000,000 × 0.03 = 540,000 sat
+
+Receiver gets:
+18,000,000 - 540,000 = 17,460,000 sat
+
+Safety margin example:
+100,000 sat
+
+Minimum wallet balance:
+18,000,000 + 100,000 = 18,100,000 sat
+
+------------------------------------------------------------
+SECTION 3 — DOGE EXAMPLE
+------------------------------------------------------------
+
+Market reference (example snapshot):
+1 USDT ≈ 10 DOGE
+10 USDT ≈ 100 DOGE
+
+Dogecoin atomic unit:
+1 DOGE = 100,000,000 sat (internal WAproxy unit)
+
+Conversion:
+100 × 100,000,000 = 10,000,000,000 sat
+
+Set:
+amount_sat = 10,000,000,000
+
+Protocol fee:
+10,000,000,000 × 0.03 = 300,000,000 sat
+
+Receiver gets:
+10,000,000,000 - 300,000,000 = 9,700,000,000 sat
+
+Safety margin example:
+100,000,000 sat
+
+Minimum wallet balance:
+10,000,000,000 + 100,000,000
+= 10,100,000,000 sat
+
+------------------------------------------------------------
+OPTIONAL REVERSE CALCULATION
+------------------------------------------------------------
+
+If exact net delivery is required:
+
+amount_sat = desired_net / 0.97
+
+Applications must handle rounding safely.
+
+------------------------------------------------------------
+PROTOCOL PHILOSOPHY
+------------------------------------------------------------
+
+WAproxy does not price assets.
+WAproxy executes deterministic value transport.
+
+------------------------------------------------------------
+END OF DOCUMENT
+----
 ## Documentation
 
 Website: https://waproxy.org
