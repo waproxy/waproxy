@@ -276,9 +276,9 @@ CALCULATION CONTRACT (NON-NEGOTIABLE):
 - Network fee is deducted from wallet balance.
 - Safety margin prevents execution failure.
 - WAproxy never guarantees fiat equivalence.
-------------------------------------------------------------
+- 
 OPTIONAL REVERSE CALCULATION
-------------------------------------------------------------
+
 
 If exact net delivery is required:
 
@@ -286,6 +286,13 @@ amount_sat = desired_net / 0.97
 
 Applications must handle rounding safely.
 
+ ## CALCULATION CONTRACT (NON-NEGOTIABLE):
+
+- All amounts are integer SAT units.
+- Protocol fee is deducted from amount_sat.
+- Network fee is deducted from wallet balance.
+- Safety margin prevents execution failure.
+- WAproxy never guarantees fiat equivalence.
 ------------------------------------------------------------
 PROTOCOL PHILOSOPHY
 ------------------------------------------------------------
