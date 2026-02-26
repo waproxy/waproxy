@@ -269,14 +269,7 @@ Safety margin example:
 Minimum wallet balance:
 10,000,000,000 + 100,000,000
 = 10,100,000,000 sat
-CALCULATION CONTRACT (NON-NEGOTIABLE):
 
-- All amounts are integer SAT units.
-- Protocol fee is deducted from amount_sat.
-- Network fee is deducted from wallet balance.
-- Safety margin prevents execution failure.
-- WAproxy never guarantees fiat equivalence.
-- 
 OPTIONAL REVERSE CALCULATION
 
 
